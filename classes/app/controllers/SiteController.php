@@ -10,13 +10,16 @@
 namespace app\controllers;
 
 
+use app\models\User;
 use sys\web\Controller;
 
 class SiteController extends Controller
 {
     public function actionIndex()
     {
-        return $this->render("index");
+        $UserModel = new User(\Sys::$app->request->get("id"));
+        $user = $UserModel->one();
+        return $this->render("index", ["user" => $user]);
     }
     //TODO;
 }

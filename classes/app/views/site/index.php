@@ -16,6 +16,7 @@
 <h1 class="pull-center"><?= \Sys::$app->brand ?></h1>
 <h6 class="pull-center">URI: <?= parse_url($_SERVER["REQUEST_URI"])["path"] ?></h6>
 <h2 class="pull-center">Site under construction!</h2>
+<?php \Sys::debug($user) ?>
 <?php \Sys::debug(\Sys::$app) ?>
 <?= $this->render("test") ?>
 <?php Sys::debug($this) ?>
