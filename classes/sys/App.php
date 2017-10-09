@@ -35,7 +35,7 @@ class App
     {
         \Sys::$app->request = new Request();
         $route = new UrlManager($this->sys->config->component("UrlManager"));
-        \Sys::debug($route->parseUri($route->uri())->validate());
+        $route->parseUri($route->uri())->validate();
         \Sys::$app->request = new Request();
         $controller = "app\\controllers\\{$route->controller}";
         echo (new $controller())->{$route->action}();

@@ -73,7 +73,6 @@ class UrlManager
     {
         if (!file_exists(ROOT . "/app/controllers/{$this->controller}.php") || !method_exists("app\\controllers\\{$this->controller}", "{$this->action}")
             ) {
-            \Sys::debug($this);
             $this->parseRoute($this->config["errors"]["error404"]);
         }
         return $this;
