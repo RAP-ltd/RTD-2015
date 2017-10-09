@@ -1,0 +1,17 @@
+<application>
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="106ed482-d98a-404c-be3c-a9f3c1cbef1a" name="alex1rap" url="http://apr.rap-ltd.tk">
+        <fileTransfer port="0" accessType="LOCAL" />
+      </webServer>
+      <webServer id="60ab525c-2968-4029-9fda-dbfdf6e7933c" name="beget" url="http://u63365kl.bget.ru">
+        <fileTransfer host="u63365kl.bget.ru" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</application>
