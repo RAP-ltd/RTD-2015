@@ -20,4 +20,3 @@
 <?php \Sys::debug(\Sys::$app) ?>
 <?= $this->render("test") ?>
 <?php Sys::debug($this) ?>
-<h6 class="pull-center">Execution time: <?= microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"] ?>s</h6>

@@ -32,7 +32,7 @@ class App
     public function Run()
     {
         $route = new UrlManager();
-        \Sys::debug($route->parse($route->uri()));
+        \Sys::debug($route->parseUri($route->uri()));
         //echo (new SiteController())->actionIndex();
         //TODO;
     }

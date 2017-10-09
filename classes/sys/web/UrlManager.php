@@ -30,21 +30,32 @@ class UrlManager
      * @param string $uri
      * @return $this
      */
-    public function parse($uri = "")
+    public function parseUri($uri = "")
     {
         $rules = \Sys::$app->config->component("UrlManager")["rules"];
         foreach ($rules as $rule => $route) {
             $rule = preg_replace("~<([^:]+):([^>]+)>~uisU", "(?<$1>$2)", $rule);
             if (preg_match("~^/$rule$~uisU", $uri, $matches)) {
-                \Sys::debug($matches);
                 $this->route = $route;
-                if (preg_match("~^(?<controller>.*)/(?<action>[^/]+)$~uisU", $route, $matches)) {
-                    $this->controller = ucfirst(strtolower($matches["controller"])) . 'Controller';
-                    $this->action = 'action' . ucfirst(strtolower($matches["action"]));
-                }
+                $this->parseRoute($route);
             }
         }
+        if ($this->route == null) {
+            $this->route = substr($uri, 1);
+            $this->parseRoute($this->route);
+        }
         return $this;
+    }
+
+    protected function parseRoute($route)
+    {
+        if (preg_match("~^(?<path>.+/)?(?<controller>[^/]+)/(?<action>[^/]+)$~uisU", $route, $matches)) {
+            $this->controller = $matches["path"] . ucfirst(strtolower($matches["controller"])) . 'Controller';
+            $this->action = 'action' . ucfirst(strtolower($matches["action"]));
+        } elseif (preg_match("~^(?<controller>.+)/$~uisU", $route, $matches)) {
+            $this->route = $matches["path"] . $matches["controller"] . '/index';
+            $this->parseRoute($this->route);
+        }
     }
 
     public function uri()
