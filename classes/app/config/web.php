@@ -11,12 +11,6 @@ return [
     "language" => "ru-RU",
     "cookieValidationKey" => "wnk3nFF3ff3d2d2d23",
     "components" => [
-        "UrlManager" => [
-            "showPrettyURL" => true,
-            "rules" => [
-                "" => "site/index"
-            ]
-        ],
         "View" => [
             "directory" => "layouts",
             "main" => "main",
@@ -24,6 +18,13 @@ return [
             "cssCodeAtHead" => true,
             "jsFilesAtHead" => true,
             "jsCodeAtHead" => true
-        ]
+        ],
+        "UrlManager" => [
+            "showPrettyURL" => true,
+            "rules" => [
+                "" => "site/index",
+                "id<id:\w+>" => "user/profile"
+            ]
+        ],
     ]
 ];

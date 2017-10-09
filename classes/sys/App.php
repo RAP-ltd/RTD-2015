@@ -10,6 +10,7 @@ namespace sys;
 
 
 use app\controllers\SiteController;
+use sys\web\UrlManager;
 
 class App
 {
@@ -30,7 +31,9 @@ class App
      */
     public function Run()
     {
-        echo (new SiteController())->actionIndex();
+        $route = new UrlManager();
+        \Sys::debug($route->parse($route->uri()));
+        //echo (new SiteController())->actionIndex();
         //TODO;
     }
 }
