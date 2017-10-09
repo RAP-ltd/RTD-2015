@@ -30,7 +30,6 @@ class Sys
         $this->config = new Config($config);
         $this->brand = $this->config->brand();
         $this->language = $this->config->language();
-        $this->request = new Request();
         $this->db = new Connection($dbConfig);
         self::$app = $this;
     }

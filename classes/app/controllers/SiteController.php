@@ -21,6 +21,11 @@ class SiteController extends Controller
         $user = $UserModel->one();
         return $this->render("index", ["user" => $user]);
     }
+
+    public function actionError404()
+    {
+        return $this->render("error", ["code" => 404]);
+    }
     //TODO;
 }
 

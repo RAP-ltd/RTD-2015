@@ -10,11 +10,13 @@ namespace sys;
 
 
 use app\controllers\SiteController;
+use sys\http\Request;
 use sys\web\UrlManager;
 
 class App
 {
     public static $config;
+    public $sys;
 
     /**
      * App constructor.
@@ -23,7 +25,7 @@ class App
     public function __construct($config)
     {
         self::$config = $config;
-        new \Sys($config);
+        $this->sys = new \Sys($config);
     }
 
     /**
@@ -31,9 +33,12 @@ class App
      */
     public function Run()
     {
-        $route = new UrlManager();
-        \Sys::debug($route->parseUri($route->uri()));
-        //echo (new SiteController())->actionIndex();
+        \Sys::$app->request = new Request();
+        $route = new UrlManager($this->sys->config->component("UrlManager"));
+        \Sys::debug($route->parseUri($route->uri())->validate());
+        \Sys::$app->request = new Request();
+        $controller = "app\\controllers\\{$route->controller}";
+        echo (new $controller())->{$route->action}();
         //TODO;
     }
 }

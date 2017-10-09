@@ -15,7 +15,7 @@ class UrlManager
     public $controller;
     public $action;
 
-    public static $config;
+    public $config;
 
     /**
      * UrlManager constructor.
@@ -23,7 +23,7 @@ class UrlManager
      */
     public function __construct($config = [])
     {
-        self::$config = $config;
+        $this->config = $config;
     }
 
     /**
@@ -36,6 +36,12 @@ class UrlManager
         foreach ($rules as $rule => $route) {
             $rule = preg_replace("~<([^:]+):([^>]+)>~uisU", "(?<$1>$2)", $rule);
             if (preg_match("~^/$rule$~uisU", $uri, $matches)) {
+                foreach ($matches as $key => $value) {
+                    if (!is_numeric($key)) {
+                        $_GET[$key] = $value;
+                        $_REQUEST[$key] = $value;
+                    }
+                }
                 $this->route = $route;
                 $this->parseRoute($route);
             }
@@ -50,7 +56,7 @@ class UrlManager
     protected function parseRoute($route)
     {
         if (preg_match("~^(?<path>.+/)?(?<controller>[^/]+)/(?<action>[^/]+)$~uisU", $route, $matches)) {
-            $this->controller = $matches["path"] . ucfirst(strtolower($matches["controller"])) . 'Controller';
+            $this->controller = str_replace("/", "\\", $matches["path"] . ucfirst(strtolower($matches["controller"])) . 'Controller');
             $this->action = 'action' . ucfirst(strtolower($matches["action"]));
         } elseif (preg_match("~^(?<controller>.+)/$~uisU", $route, $matches)) {
             $this->route = $matches["path"] . $matches["controller"] . '/index';
@@ -61,5 +67,15 @@ class UrlManager
     public function uri()
     {
         return parse_url(\Sys::$app->request->server("REQUEST_URI"))["path"];
+    }
+
+    public function validate()
+    {
+        if (!file_exists(ROOT . "/app/controllers/{$this->controller}.php") || !method_exists("app\\controllers\\{$this->controller}", "{$this->action}")
+            ) {
+            \Sys::debug($this);
+            $this->parseRoute($this->config["errors"]["error404"]);
+        }
+        return $this;
     }
 }

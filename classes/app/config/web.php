@@ -20,10 +20,13 @@ return [
             "jsCodeAtHead" => true
         ],
         "UrlManager" => [
+            "errors" => [
+                "error404" => "site/error404"
+            ],
             "showPrettyURL" => true,
             "rules" => [
                 "" => "site/index",
-                "id<id:\w+>" => "user/profile"
+                "id<id:\w+>" => "site/index"
             ]
         ],
     ]
