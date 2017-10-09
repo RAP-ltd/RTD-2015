@@ -6,6 +6,11 @@
  * Time: 9:25
  */
 
+$this->cssFiles([
+        "int" => [
+            "bootstrap"
+        ]
+]);
 ?>
 <?php $this->BEGIN_HTML() ?>
 <!DOCTYPE html>

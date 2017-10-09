@@ -19,7 +19,11 @@ return [
         ],
         "View" => [
             "directory" => "layouts",
-            "main" => "main"
+            "main" => "main",
+            "cssFilesAtHead" => true,
+            "cssCodeAtHead" => true,
+            "jsFilesAtHead" => true,
+            "jsCodeAtHead" => true
         ]
     ]
 ];
