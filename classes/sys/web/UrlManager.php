@@ -34,7 +34,7 @@ class UrlManager
     {
         $rules = \Sys::$app->config->component("UrlManager")["rules"];
         foreach ($rules as $rule => $route) {
-            $rule = preg_replace("~<(?<param>\w+):([^>]+)>~uisU", "(?<$1>$2)", $rule);
+            $rule = preg_replace("~<([^:]+):([^>]+)>~uisU", "(?<$1>$2)", $rule);
             if (preg_match("~^/$rule$~uisU", $uri, $matches)) {
                 \Sys::debug($matches);
                 $this->route = $route;
