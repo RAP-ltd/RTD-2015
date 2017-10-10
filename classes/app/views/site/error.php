@@ -9,3 +9,4 @@
 $this->title = "Ошибка {$code}";
  ?>
 <h1>Ошибка <?= $code ?>!</h1>
+<?= (new \sys\web\UrlManager(Sys::$app->config->component("UrlManager")))->createUrl(["site/index", "id" => 123]) ?>

@@ -14,6 +14,7 @@ class UrlManager
     public $route;
     public $controller;
     public $action;
+    public $params;
 
     public $config;
 
@@ -40,6 +41,7 @@ class UrlManager
                     if (!is_numeric($key)) {
                         $_GET[$key] = $value;
                         $_REQUEST[$key] = $value;
+                        $this->params[$key] = $value;
                     }
                 }
                 $this->route = $route;
@@ -77,4 +79,48 @@ class UrlManager
         }
         return $this;
     }
+
+    public function createUrl($url = [])
+    {
+        $rules = $this->config["rules"];
+        foreach ($rules as $rule => $value) {
+            if ($url[0] == $value) {
+                if (count($url) == 1)
+                {
+                    return '/' . $rule;
+                }
+                if ($a = $this->validateUrl($url, $rule)) {
+                    return $a;
+                }
+            }
+        }
+    }
+
+    public function validateUrl($url, $rule)
+    {
+        $pattern = "~<(?<param>[^:]+):(?<value>[^>]+)>~uisU";
+        if (preg_match_all($pattern, $rule, $matches))
+        {
+            $str = $rule;
+            foreach ($url as $param => $value)
+            {
+                if ($param !== 0) {
+                    $str = preg_replace("~<$param:[^>]+>~uisU", "$value", $str);
+                    //debug(["param" => $param, "value" => $value, "str" => $str, "rule" => $rule]);
+                }
+            }
+            $parsed = $this->parseUri('/' . $str);
+            $arr = $url;
+            unset($arr[0]);
+            foreach ($parsed->params as $param => $value)
+            {
+                unset($arr[$param]);
+            }
+            $query = http_build_query($arr);
+            return '/' . $str . ($query ? '?' . $query : '');
+        }
+        return false;
+        //TODO;
+    }
+
 }
