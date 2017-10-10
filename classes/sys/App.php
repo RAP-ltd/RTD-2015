@@ -8,8 +8,6 @@
 
 namespace sys;
 
-
-use app\controllers\SiteController;
 use sys\http\Request;
 use sys\web\UrlManager;
 
@@ -36,7 +34,7 @@ class App
         \Sys::$app->request = new Request();
         $route = new UrlManager($this->sys->config->component("UrlManager"));
         $route->parseUri($route->uri())->validate();
-        \Sys::$app->request = new Request();
+        \Sys::$app->request->reNew();
         $controller = "app\\controllers\\{$route->controller}";
         echo (new $controller())->{$route->action}();
         //TODO;

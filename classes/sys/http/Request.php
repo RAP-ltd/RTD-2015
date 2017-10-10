@@ -84,4 +84,12 @@ class Request
     {
         return $this->session[$str] ? $this->session[$str] : null;
     }
+
+    public function reNew()
+    {
+        $obj = new self();
+        foreach ($obj as $property => $value) {
+            $this->{$property} = $value;
+        }
+    }
 }
