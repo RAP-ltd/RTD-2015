@@ -37,12 +37,22 @@ class Sys
     /**
      * @param $obj
      * @param bool $is_array
+     * @param bool $print
+     * @return bool|string
      */
-    public static function debug($obj, $is_array = false)
+    public static function debug($obj, $is_array = false, $print = true)
     {
-        echo "<pre>";
+        ob_start();
         $is_array ? print_r($obj) : var_dump($obj);
-        echo "</pre>";
+        $res = htmlspecialchars(ob_get_clean());
+        $res = "<h5><pre>{$res}</pre></h5>";
+        if ($print) {
+            echo $res;
+            return true;
+        } else {
+            return $res;
+        }
     }
+
 }
 
