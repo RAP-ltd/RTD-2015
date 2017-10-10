@@ -6,6 +6,12 @@
  * Time: 15:42
  */
 
+function setDeploy()
+{
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+}
+
 define("WEB_ROOT", __DIR__);
 
 include_once __DIR__ . '/../classes/autoload.php';

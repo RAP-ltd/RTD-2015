@@ -2,7 +2,6 @@
 
 use sys\base\Config;
 use sys\db\Connection;
-use sys\http\Request;
 
 /**
  * Created by PhpStorm.

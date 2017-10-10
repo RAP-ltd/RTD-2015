@@ -16,6 +16,8 @@ class UrlManager
     public $action;
     public $params;
 
+    public static $url;
+
     public $config;
 
     /**
@@ -25,6 +27,7 @@ class UrlManager
     public function __construct($config = [])
     {
         $this->config = $config;
+        self::$url = $this;
     }
 
     /**
@@ -106,7 +109,6 @@ class UrlManager
             {
                 if ($param !== 0) {
                     $str = preg_replace("~<$param:[^>]+>~uisU", "$value", $str);
-                    //debug(["param" => $param, "value" => $value, "str" => $str, "rule" => $rule]);
                 }
             }
             $parsed = $this->parseUri('/' . $str);
