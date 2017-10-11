@@ -6,11 +6,15 @@
  * Time: 15:42
  */
 
-function setDeploy()
+function setDeploy($code)
 {
     ini_set('display_errors', 1);
-    error_reporting(E_ALL);
+    error_reporting($code);
 }
+
+setDeploy(0);
+//setDeploy(E_ALL);
+setDeploy(E_ERROR);
 
 define("WEB_ROOT", __DIR__);
 

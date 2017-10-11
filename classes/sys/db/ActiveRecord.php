@@ -10,7 +10,9 @@
 namespace sys\db;
 
 
-class ActiveRecord
+use sys\web\Model;
+
+class ActiveRecord extends Model
 {
     protected $db;
     protected $sql = "";
@@ -38,6 +40,33 @@ class ActiveRecord
     {
         $db = $this->db;
         return $db->query($sql)->fetchObject();
+    }
+
+    protected function where($cond = null)
+    {
+        if (is_string($cond)) {
+            $this->conditions = $cond;
+        } elseif (is_array($cond)) {
+            $this->conditions = $this->conditionsToString($cond);
+        }
+    }
+
+    /**
+     * @param null $conds
+     * @return null|string
+     */
+    protected function conditionsToString($conds = null)
+    {
+        $str = "";
+        if (is_array($conds)) {
+            $i = 0;
+            foreach ($conds as $cond => $value) {
+                $str .= ($i > 0 && $cond != 'OR' ? ' AND ' : '') . !is_array($value) ? "`{$cond}`='{$value}'" : (!is_numeric($cond) ? " {$cond} " : null) . '(' . $this->conditionsToString($value) . ')';
+            }
+        } else {
+            return "Error! \$conds type must be an array!";
+        }
+        return $str;
     }
 }
 

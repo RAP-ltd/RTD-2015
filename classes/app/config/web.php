@@ -26,7 +26,8 @@ return [
             "showPrettyURL" => true,
             "rules" => [
                 "" => "site/index",
-                "id<id:\w+>" => "site/index"
+                "test" => "site/test",
+                "id<id:\w+>" => "site/index",
             ]
         ],
     ]

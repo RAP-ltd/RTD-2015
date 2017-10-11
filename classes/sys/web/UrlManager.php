@@ -62,6 +62,7 @@ class UrlManager
     {
         if (preg_match("~^(?<path>.+/)?(?<controller>[^/]+)/(?<action>[^/]+)$~uisU", $route, $matches)) {
             $this->controller = str_replace("/", "\\", $matches["path"] . ucfirst(strtolower($matches["controller"])) . 'Controller');
+            $this->controller = "app\\controllers\\{$this->controller}";
             $this->action = 'action' . ucfirst(strtolower($matches["action"]));
         } elseif (preg_match("~^(?<controller>.+)/$~uisU", $route, $matches)) {
             $this->route = $matches["path"] . $matches["controller"] . '/index';
@@ -76,8 +77,13 @@ class UrlManager
 
     public function validate()
     {
-        if (!file_exists(ROOT . "/app/controllers/{$this->controller}.php") || !method_exists("app\\controllers\\{$this->controller}", "{$this->action}")
+        $file = str_replace("\\", "/", ROOT . "/{$this->controller}.php");
+        if (!file_exists($file)
             ) {
+            \Sys::debug(["File '{$file}' not found" => ["controller" => $this->controller, "action" => $this->action]]);
+            $this->parseRoute($this->config["errors"]["error404"]);
+        } elseif (!method_exists($this->controller, "{$this->action}")) {
+            \Sys::debug(["File '{$file}' found but action '{$this->action}' not found" => ["controller" => $this->controller, "action" => $this->action]]);
             $this->parseRoute($this->config["errors"]["error404"]);
         }
         return $this;

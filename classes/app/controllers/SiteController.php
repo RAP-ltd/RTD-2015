@@ -22,6 +22,12 @@ class SiteController extends Controller
         return $this->render("index", ["user" => $user]);
     }
 
+    public function actionTest()
+    {
+        $userModel = new User(10);
+        return $userModel->test();
+    }
+
     public function actionError404()
     {
         return $this->render("error", ["code" => 404]);
